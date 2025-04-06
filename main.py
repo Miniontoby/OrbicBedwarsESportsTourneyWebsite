@@ -23,4 +23,4 @@ def show_overlay(user_type, user_id):
     abort(404)
 
 if __name__ == '__main__':
-    app.run()    
+    app.run(port=os.getenv('SERVER_PORT', os.getenv('PORT', 5000)))    
