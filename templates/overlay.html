@@ -1,0 +1,8 @@
+<!doctype html>
+<title>Hello from Flask</title>
+{% if user_type and user_id %}
+  <h1>Hello {{ user_type }}_{{ user_id }}!</h1>
+{% else %}
+  <h1>Hello, World!</h1>
+{% endif %}
+
