@@ -30,10 +30,16 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        #g.user = (
-        #    get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
-        #)
-        g.user = {}
+        '''
+        user_obj = get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
+        if user_obj not is None:
+            # Here DON'T include password!!
+            del user_obj["password"]
+        g.user = user_obj
+        '''
+        g.user = {
+            "username": session.get("username") or "Unknown"
+        }
 
 '''
 @bp.route("/register", methods=("GET", "POST"))
@@ -83,20 +89,22 @@ def login():
         password = request.form["password"]
         #db = get_db()
         error = None
-        user = {"id": 1}
+
+        # test is password for now, nothing is actually using it tho
+        user = {"id": 1, "password": generate_password_hash("test")}
+
         #user = db.execute(
-        #    "SELECT * FROM user WHERE username = ?", (username,)
+        #    "SELECT id, password FROM user WHERE username = ?", (username,)
         #).fetchone()
 
-        if user is None:
+        if user is None or not check_password_hash(user["password"], password):
             error = "Incorrect username or password."
-        #elif not check_password_hash(user["password"], password):
-        #    error = "Incorrect username or password."
 
         if error is None:
             # store the user id in a new session and return to the index
             session.clear()
             session["user_id"] = user["id"]
+            session["username"] = username
             return redirect(url_for("index"))
 
         flash(error)

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Manage Teams{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('manage_players') }}">Manage Players</a>
+    <a class="action" href="{{ url_for('manage_teams') }}">Manage Teams</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<script>
+function dragstartHandler(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function dragoverHandler(ev) {
+  ev.preventDefault();
+}
+
+function dropHandler(ev) {
+  ev.preventDefault();
+  const data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
+}
+</script>
+  <h2>All players signed up</h2>
+  <ul class="dropzone" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
+    {% for player in players %}
+      <li draggable="true" ondragstart="dragstartHandler(event)" id="{{ player["displayname"] }}">{{ player["displayname"] }} | Rank: {{ player["rank"]["cleanName"] }} | Bedwars level: {{ player["bedwarsLevel"]["level"] }} stars</li>
+    {% endfor %}
+  </ul>
+  <hr>
+  {% for team in teams %}
+    <h2>Team {{ loop.index }}</h2>
+    <ul class="dropzone" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
+    </ul>
+  {% endfor %}
+{% endblock %}

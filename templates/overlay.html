@@ -1,8 +1,43 @@
-<!doctype html>
-<title>Hello from Flask</title>
-{% if user_type and user_id %}
-  <h1>Hello {{ user_type }}_{{ user_id }}!</h1>
-{% else %}
-  <h1>Hello, World!</h1>
-{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esports Overlay</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_overlay.css') }}">
+</head>
+<body class="usertype--{{ user_type }}">
+{% if user_type and teams %}
+  <div class="overlay-container">
+    <div class="opacity-container top-banner small">
+      <small>Powered by <b>VDO.Ninja</b> | Sponsored by <b>Atrioxhosting</b></small>
+    </div>
+    <div class="opacity-container top-banner">
+      Orbic Bedwars E-Sports Tournament
+    </div>
 
+    {% if user_type == "player" %}
+      {% if player %}
+        <div class="opacity-container player-container">
+          <img class="player-avatar" src="https://minotar.net/helm/{{ player.nickname }}/32.png" alt="Player Avatar">
+          <div class="player-name">{{ player.nickname }}</div>
+
+          <div class="team team-{{ player.team.color }}">
+            <div class="team-name">Team {{ player.team.id }}</div>
+          </div>
+        </div>
+      {% endif %}
+    {% elif user_type == "camera" %}
+      <div class="team-container">
+        {% for team in teams %}
+          <div class="team opacity-container team-{{ team.color }}">
+            <span class="team-name">Team {{ team.id }}</span>
+            <span class="team-score">{{ team.score }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+</body>
+</html>

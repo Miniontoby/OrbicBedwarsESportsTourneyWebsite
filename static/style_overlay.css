@@ -1,0 +1,144 @@
+/* Global styles */
+:root {
+    --background-alpha: 0.7;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url(https://hypixel.net/attachments/2020-06-30_19-19-12-png.1807655/);
+    background-size: cover;
+    color: white;
+}
+
+body.usertype--camera {
+    background-image: url(https://hypixel.net/attachments/2881931/);
+}
+
+body.usertype--commentary {
+    background-image: url(https://a.storyblok.com/f/150231/1920x1080/a3a3994c16/hypixel-bedwars-lobby.png);
+}
+
+/* Ensure padding is included in width calculation */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+
+/* Class for all opacity needed containers */
+.opacity-container {
+    background-color: rgba(0, 0, 0, var(--background-alpha));
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    place-items: center;
+    place-content: center;
+    height: 50px;
+}
+
+
+/* Overlay Styles */
+.overlay-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+/* Top Banner */
+.top-banner {
+    position: absolute;
+    left: 50%;
+    top: 20px;
+
+    transform: translateX(-50%);
+    font-size: 18px;
+    text-align: center;
+/* Uses opacity-container */
+}
+
+.top-banner.small {
+    top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 0;
+    height: auto;
+}
+
+/* Section for Player Information */
+.player-container {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+
+    display: flex;
+    gap: 10px;
+    min-width: 380px;
+/* Uses opacity-container */
+}
+
+.player-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.player-name {
+    font-weight: bold;
+    width: 100%;
+}
+
+/* Section for Team Information */
+.team-container {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+
+    display: flex;
+    padding: 0px 20px;
+    gap: 20px;
+    width: 100%;
+}
+
+.team-container > .team {
+    padding-left: 48px;
+}
+
+/* Team Information Section */
+.team {
+    flex: 1; /* Ensures all teams take equal space */
+    display: flex;
+    place-items: center;
+    justify-content: space-between;
+
+    font-weight: bold;
+    padding: 5px 10px;
+/* Uses opacity-container */
+}
+
+.team-name {
+    width: max-content;
+}
+
+.player-container > .team > .team-name {
+    font-size: 16px;
+}
+
+.team-score {
+    font-size: 32px;
+}
+
+/* Team Specific Background Colors */
+.team-red { background-color: rgba(255, 0, 0, var(--background-alpha)); }
+.team-green { background-color: rgba(0, 128, 0, var(--background-alpha)); }
+.team-blue { background-color: rgba(0, 0, 255, var(--background-alpha)); }
+.team-yellow { background-color: rgba(255, 255, 0, var(--background-alpha)); color: black; }

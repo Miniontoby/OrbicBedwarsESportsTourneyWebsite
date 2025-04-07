@@ -132,3 +132,7 @@ input[type=submit] {
   align-self: start;
   min-width: 10em;
 }
+
+ul.dropzone {
+  min-height: 50px;
+}
