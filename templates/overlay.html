@@ -6,7 +6,7 @@
   <title>Esports Overlay</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style_overlay.css') }}">
 </head>
-<body class="usertype--{{ user_type }}">
+<body class="usertype--{{ user_type|e }}">
 {% if user_type and teams %}
   <div class="overlay-container">
     <div class="opacity-container top-banner small">
@@ -19,20 +19,20 @@
     {% if user_type == "player" %}
       {% if player %}
         <div class="opacity-container player-container">
-          <img class="player-avatar" src="https://minotar.net/helm/{{ player.nickname }}/32.png" alt="Player Avatar">
-          <div class="player-name">{{ player.nickname }}</div>
+          <img class="player-avatar" src="https://minotar.net/helm/{{ player.nickname|e }}/32.png" alt="Player Avatar">
+          <div class="player-name">{{ player.nickname|e }}</div>
 
-          <div class="team team-{{ player.team.color }}">
-            <div class="team-name">Team {{ player.team.id }}</div>
+          <div class="team team-{{ player.team.color|e }}">
+            <div class="team-name">Team {{ player.team.id|e }}</div>
           </div>
         </div>
       {% endif %}
     {% elif user_type == "camera" %}
       <div class="team-container">
         {% for team in teams %}
-          <div class="team opacity-container team-{{ team.color }}">
-            <span class="team-name">Team {{ team.id }}</span>
-            <span class="team-score">{{ team.score }}</span>
+          <div class="team opacity-container team-{{ team.color|e }}">
+            <span class="team-name">Team {{ team.id|e }}</span>
+            <span class="team-score">{{ team.score|e }}</span>
           </div>
         {% endfor %}
       </div>

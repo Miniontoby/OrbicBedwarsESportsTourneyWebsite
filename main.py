@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from flask import abort, Flask, redirect, render_template, request, session, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 import auth
 import utils
@@ -12,14 +13,19 @@ app = Flask(__name__)
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = os.getenv('APP_SECRET')
 
+app.wsgi_app = ProxyFix(app.wsgi_app)
+
 app.register_blueprint(auth.bp)
+
+colors = ("red", "blue", "green", "yellow", "aqua", "white", "pink", "gray")
 
 teams = (
     Team(1, "red", 2),
     Team(2, "blue", 1),
     Team(3, "green", 1),
-    Team(4, "yellow", 1)
+    Team(4, "yellow", 1),
 )
+
 players = (
     Player(1, "xFlxme", teams[0]),
     Player(2, "Sololad", teams[0]),
@@ -40,6 +46,8 @@ players = (
     Player(14, "AnxiousPiggy", teams[3]),
     Player(15, "SOMEBLANKET", teams[3]),
     Player(16, "xReefed", teams[3]),
+
+    Player(17, "RedMiniontoby2"),
 )
 
 
@@ -67,7 +75,7 @@ def manage_players():
 @app.route("/manage_teams")
 @auth.login_required
 def manage_teams():
-    return render_template('manage_teams.html', teams=teams)
+    return render_template('manage_teams.html', colors=colors, teams=teams)
 
 @app.route('/overlay/<user_type>/<int:user_id>')
 def overlay(user_type, user_id):

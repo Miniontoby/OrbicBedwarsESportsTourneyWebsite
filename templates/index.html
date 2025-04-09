@@ -10,6 +10,6 @@
 
 {% block content %}
   {% if g.user %}
-    hi {{ g.user["username"] }}
+    hi {{ g.user["username"]|e }}
   {% endif %}
 {% endblock %}
