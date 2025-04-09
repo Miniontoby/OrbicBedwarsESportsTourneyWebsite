@@ -13,7 +13,7 @@ app = Flask(__name__)
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = os.getenv('APP_SECRET')
 
-app.wsgi_app = ProxyFix(app.wsgi_app)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2) # X-Forwarded-For 2 levels behind, since hosted behind reverse proxy behind cloudflare
 
 app.register_blueprint(auth.bp)
 
