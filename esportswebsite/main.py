@@ -59,7 +59,6 @@ def manage_players():
             names_removed.append(p["nickname"])
 
     for name in names_removed:
-        print('Remove user', name)
         remove_player(nickname=name)
 
     for name in names_not_in:
@@ -67,7 +66,6 @@ def manage_players():
         if not player_data is None:
             add_player(player_data)
         else:
-            print('User doesnt exist', name)
             add_player({
                 'nickname': name,
                 'rank': {
@@ -133,7 +131,7 @@ def overlay(user_type, user_id):
     if user_type in ["player", "camera", "commentary"] and user_id > 0:
         player = None
         if user_type == "player":
-            if user_id - 1 < len(player):
+            if user_id - 1 < len(players):
                 player = players[user_id - 1]
         if request.method == 'PATCH':
             return {
