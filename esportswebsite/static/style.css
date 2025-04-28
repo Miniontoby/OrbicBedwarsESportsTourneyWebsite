@@ -135,4 +135,5 @@ input[type=submit] {
 
 ul.dropzone {
   min-height: 50px;
+  border: 2px solid gray;
 }

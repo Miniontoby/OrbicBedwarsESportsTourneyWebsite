@@ -11,6 +11,9 @@
     {% if g.user %}
       <li><span>{{ g.user['username']|e }}</span>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+    {% elif g.team %}
+      <li><span>{{ g.team['username']|e }}</span>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
     {% else %}
       <li><a href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
@@ -19,6 +22,12 @@
 <section class="content">
   <header>
     {% block header %}{% endblock %}
+    {% if g.user %}
+      <a class="action" href="{{ url_for('main.manage_players') }}">Manage Players</a>
+      <a class="action" href="{{ url_for('main.manage_teams') }}">Manage Teams</a>
+    {% elif g.team %}
+      <a class="action" href="{{ url_for('main.team_page') }}">Team Page</a>
+    {% endif %}
   </header>
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>

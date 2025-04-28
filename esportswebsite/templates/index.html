@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Home{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% if g.user %}
+    Hello {{ g.user["username"]|e }}!
+  {% elif g.team %}
+    Hello member of team "{{ g.team["username"]|e }}"!
+  {% endif %}
+  <br>Welcome to the management website!
+{% endblock %}

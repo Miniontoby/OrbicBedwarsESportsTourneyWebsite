@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esports Overlay</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_overlay.css') }}">
+</head>
+<body class="usertype--{{ user_type|e }}">
+{% if user_type and teams %}
+  <div class="overlay-container">
+    <div class="opacity-container top-banner small">
+      <small>Powered by <b>VDO.Ninja</b> | Sponsored by <b>Atrioxhosting</b></small>
+    </div>
+    <div class="opacity-container top-banner">
+      Orbic Bedwars E-Sports Tournament
+    </div>
+
+    {% if user_type == "player" %}
+      {% if player %}
+        <div class="opacity-container player-container">
+          <img class="player-avatar" src="https://minotar.net/helm/{{ player["nickname"]|e }}/32.png" alt="Player Avatar">
+          <div class="player-name">{{ player["nickname"]|e }}</div>
+
+          {% for team in teams %}
+            {% if team["id"] == player["team_id"] %}
+              <div class="team team-{{ team["color_name"]|e }}" data-teamid="{{ player["team_id"]|e }}">
+                <div class="team-name">Team {{ player["team_id"]|e }}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+<script>
+setInterval(async function() {
+	try {
+		const data = await fetch("", { method: "PATCH" })
+			.then(r=>r.json());
+		if (data.player) {
+			const el = document.querySelector(".player-container");
+			if (el) {
+				const username = el.querySelector(".player-name");
+				if (username && username.innerText !== data.player["nickname"]) {
+					username.innerText = data.player["nickname"];
+					const avatar = el.querySelector(".player-avatar");
+					if (avatar) {
+						avatar.src = "https://minotar.net/helm/" + escape(data.player["nickname"]) + "/32.png"
+					}
+				}
+				const team = el.querySelector(".team");
+				if (team && team.dataset.teamid !== String(data.player["team_id"])) {
+					team.className = "team";
+					const teamfromid = data.teams.find(t => t["id"] == data.player["team_id"]);
+					team.classList.add("team-" + teamfromid?.color_name);
+					team.dataset.teamid = data.player["team_id"];
+					const teamname = team.querySelector('.team-name');
+					if (teamname) {
+						teamname.innerText = 'Team ' + data.player["team_id"];
+					}
+				}
+			}
+		}
+	} catch {
+	}
+}, 5e3);
+</script>
+      {% endif %}
+    {% elif user_type == "camera" %}
+      <div class="team-container">
+        {% for team in teams %}
+          <div id="team-{{ team["id"]|e }}" class="team opacity-container team-{{ team["color_name"]|e }}">
+            <span class="team-name">Team {{ team["id"]|e }}</span>
+            <span class="team-score">{{ team["score"]|e }}</span>
+          </div>
+        {% endfor %}
+      </div>
+<script>
+setInterval(async function() {
+	try {
+		const data = await fetch("", { method: "PATCH" })
+			.then(r=>r.json());
+		if (data.teams) {
+			for (const team of data.teams) {
+				const el = document.getElementById("team-" + team.id);
+				if (!el) continue;
+
+				if (!el.classList.contains("team-" + team["color_name"])) {
+					el.className = "team opacity-container";
+					el.classList.add("team-" + team["color_name"]);
+				}
+
+				const score = el.querySelector(".team-score");
+				if (score && score.innerText != team["score"]) {
+					score.innerText = team["score"];
+				}
+			}
+		}
+	} catch {
+	}
+}, 5e3);
+</script>
+    {% endif %}
+  </div>
+{% endif %}
+</body>
+</html>

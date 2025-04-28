@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Manage Teams{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+  {% for team in teams %}
+    <h2>Team {{ team["id"] }}</h2>
+    <h4>Players:</h4>
+    <ul>
+      {% for player in players %}
+        {% if player["team_id"] == team["id"] %}
+          <li>{{ player["nickname"]|e }} | Rank: {{ player["rank"]|e }} | Bedwars level: {{ player["bedwarsLevel"]|e }} stars</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    <h4>Color:</h4>
+    <select name="color-{{ team["id"]|e }}" required>
+      {% for color in colors %}
+        <option value="{{ color["id"]|e }}" {% if color["id"] == team["color_id"] %}selected{% endif %}>{{ color["name"]|e }}</option>
+      {% endfor %}
+    </select>
+    <h4>Score:</h4>
+    <input type="number" name="score-{{ team["id"] }}" value="{{ team["score"]|e }}" required>
+    <h4>Username:</h4>
+    <input type="text" name="username-{{ team["id"]|e }}" value="{{ team["username"]|e }}" required>
+    <h4>Password: (leave empty for unchanged)</h4>
+    <input type="password" name="password-{{ team["id"] }}">
+    <hr>
+  {% endfor %}
+  <input type="submit" value="Update teams">
+</form>
+{% endblock %}

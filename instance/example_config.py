@@ -1,0 +1,5 @@
+APP_SECRET=''
+HYPIXEL_API_KEY=''
+DISCORD_TOKEN=''
+DISCORD_CHANNEL_ID=''
+VDO_SETTINGS='https://vdo.ninja/?push=OBTE_{TYPE}_{ID}&label={TYPE}%20{ID}&hash=2035&remote&quality&maxbandwidth&view&proaudio&screenshare&vd=0&nosettings&r=ROOM_NAME&p=PASSWORD'

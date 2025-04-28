@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Manage Players{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <script>
+function dragstartHandler(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+function dragoverHandler(ev) {
+  // Add indication here?
+  ev.preventDefault();
+}
+
+function dropHandler(ev) {
+  ev.preventDefault();
+  const data = ev.dataTransfer.getData("text");
+  const element = document.getElementById(data);
+  var target = ev.target;
+  while (target && !target.classList.contains('dropzone')) target = target.parentElement;
+  const el = element.cloneNode(true);
+  el.querySelector("input").value = isNaN(parseInt(target.dataset.team)) ? null : parseInt(target.dataset.team);
+  target.appendChild(el);
+  element.remove();
+}
+  </script>
+  {% macro player_item(player) -%}
+    <li draggable="true" ondragstart="dragstartHandler(event)" id="player__{{ player["id"]|e }}">
+      {{ player["nickname"]|e }} | Rank: {{ player["rank"]|e }} | Bedwars level: {{ player["bedwarsLevel"]|e }} stars
+      <input type="hidden" name="player-team-{{ player["id"]|e }}" value="{{ (player["team_id"] or "null")|e }}" hidden>
+    </li>
+  {%- endmacro %}
+
+  <p>To change which players are in which team, you simply just drag and drop the players and hit Update</p>
+
+  <h2>All players signed up</h2>
+  <ul class="dropzone" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)" data-team="null">
+    {% for player in players %}
+      {% if not player["team_id"] or player["team_id"] == None %}
+        {{ player_item(player) }}
+      {% endif %}
+    {% endfor %}
+  </ul>
+  <hr>
+  {% for team in teams %}
+    <h2>Team {{ loop.index }}</h2>
+    <ul class="dropzone" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)" data-team="{{ team["id"]|e }}">
+      {% for player in players %}
+        {% if team["id"] == player["team_id"] %}
+          {{ player_item(player) }}
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% endfor %}
+  <input type="submit" value="Update players">
+</form>
+{% endblock %}

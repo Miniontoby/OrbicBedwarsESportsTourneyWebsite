@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Team Page{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <h2>Your team:</h2>
+  <ul>
+    {% for player in players %}
+      <li id="player__{{ player["id"]|e }}">
+        {{ player["nickname"]|e }} | Rank: {{ player["rank"]["cleanName"]|e }} | Bedwars level: {{ player["bedwarsLevel"]["level"]|e }} stars
+        <br><a href="{{ get_vdo_link("Player", player["id"]) }}">Your screenshare link</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

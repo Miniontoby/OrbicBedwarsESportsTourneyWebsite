@@ -1,5 +1,4 @@
 flask
 flask[async]
 requests
-python-dotenv
 discord

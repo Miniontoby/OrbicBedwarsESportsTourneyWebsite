@@ -11,7 +11,7 @@ git clone https://github.com/Miniontoby/OrbicBedwarsESportsTourneyWebsite.git
 cd OrbicBedwarsESportsTourneyWebsite
 ```
 
-Then copy `example.env` to `.env` and edit `.env` to add in:
+Then open the `instance` folder and copy `example_config.py` to `config.py` and edit `config.py` to add in:
 - a random secret key
 - the hypixel api key
 - (optional) discord bot token and channel id
@@ -22,16 +22,23 @@ Then you must install the dependencies
 pip install -r requirements.txt
 ```
 
+Initialize the database using:
+```bash
+flask --app esportswebsite init-db
+```
+It will ask for a username and a password for YOUR login to manage all teams
+
+
 Then run the app using:
 ```bash
-flask --app main run
+flask --app esportswebsite run
 ```
 The app will be listening on `http://localhost:5000`
 
 
 To make it listen on all ips on port 3000, run this command:
 ```bash
-flask --app main run --host 0.0.0.0 --port 3000
+flask --app esports run --host 0.0.0.0 --port 3000
 ```
 
 
@@ -56,9 +63,9 @@ but that's for someone who wants to improve the project for like the [YH4F compe
   - [x] Get a list of people who want to play:
     - [ ] Built-in tourney signup form
     - [x] Discord Bot Integration to read messages with the nicknames from a channel (needs to be with format parser)
-  - [ ] Check if the player nickname exists (needs to be dynamic)
+  - [x] Check if the player nickname exists (needs to be dynamic)
   - [x] Getch some stats of the players (needs to be dynamic)
-  - [ ] Drag/drop players in and out of the tourney teams (show the stats so the teams can be made fair)
+  - [x] Drag/drop players in and out of the tourney teams (show the stats so the teams can be made fair)
 - [ ] Management of teams and scores:
   - [ ] Moderator login
   - [ ] Allow updating scores of the teams
@@ -73,7 +80,7 @@ but that's for someone who wants to improve the project for like the [YH4F compe
 - [ ] Overlays
   - [x] Show title of tourney
   - [x] Show promotion banner (needs to be dynamic)
-  - [ ] Add websocket server for allowing updating the data
+  - [x] Add http data route for allowing updating the data
   - [ ] Player POV overlay:
     - [x] Nickname
     - [x] Player avatar [if exists]
